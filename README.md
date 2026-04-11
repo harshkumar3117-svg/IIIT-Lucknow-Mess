@@ -1,18 +1,24 @@
-# React + Vite
+#React & Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DON'T try this command Git add . git push git commit if somethink you change please msg me and i am verify after that add 
 
-Currently, two official plugins are available:
+ ###### What is Next doing in project in hindi and english ######
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+ pahle tumhe apne laptop m intellij idea install karna h and uske terminal se ya direct git clone karna h 
+ how to git clone do you know if you do no how to clone git search google 
+ after git clone go to src folder 
+ src->main-> ProjectApplication.java name file hogi usko upper m ek current file ke pass triangle hoga usse yeh file run hogi 
 
-## React Compiler
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+ after this you go on local host 8080 and check website is running if any error occur search on ai 
 
-Note: This will impact Vite dev & build performances.
+ ##ab apne project m kya baki h ??
+ you use ai also 
+ pahle verify kar lena home page per jo card h uske side m green border aa rahi h ya nahi agr nahi aa rahi h toh
+ Home page per card ke border side m change karne
+Yeh card ko glassmorphism ya neumorphism m karna h parallex effect lagaana h last wale page means about page  m fun fact width sahi karni h
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Register page ko remove karo add uski jagah navbar  m log in sign up wala rakho and us puri security add karo using this repo 
+and what is security add kya matlab hota h security add karna ya prashant sir ki vo pdf ai ko de do aur usse kah do vo kar lega 
+ya pahle samjo fir bad m add karna 
+ha itna hi karnah      

@@ -21,10 +21,10 @@ function Slideshow() {
   }, []);
 
   return (
-    <div className="col-md-4 mb-4">
-      <div className="react-box">
-        <h6 className="fun-title">Fun Fact</h6>
-        <p>{facts[index]}</p>
+    <div className="col-md-4 mb-4 d-flex">
+      <div className="card w-100 text-center p-4 shadow d-flex flex-column justify-content-center">
+        <h6 className="fun-title mb-3">Fun Fact</h6>
+        <p className="mb-0">{facts[index]}</p>
       </div>
     </div>
   );
@@ -71,7 +71,7 @@ function About() {
       <div className="row justify-content-center mt-4">
         <CounterBox label="Meals Served Weekly" endValue={3500} />
         <CounterBox label="Students Registered" endValue={1200} />
-        <Slideshow />
+        <Slideshow style={{ height: '40vh' }} />
       </div>
 
     </div>

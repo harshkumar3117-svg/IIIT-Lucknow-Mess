@@ -16,10 +16,10 @@ function CounterBox({ label, endValue }) {
   }, [endValue]);
 
   return (
-    <div className="col-md-4">
-      <div className="card text-center p-4 shadow">
-        <h2 className="text-success">{count}+</h2>
-        <p>{label}</p>
+    <div className="col-md-4 mb-4 d-flex">
+      <div className="card w-100 text-center p-4 shadow d-flex flex-column justify-content-center">
+        <h2 className="text-success mb-3">{count}+</h2>
+        <p className="mb-0">{label}</p>
       </div>
     </div>
   );

@@ -15,6 +15,13 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+
+    const emailRegex = /^(lcs|lit|lci|lcb)\d{4}(00[1-9]|0[1-5][0-9]|060)@iiitl\.ac\.in$/i;
+    if (!emailRegex.test(email)) {
+      setError("Invalid Email Format. Example: lcs2025002@iiitl.ac.in");
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -44,7 +51,7 @@ function Login() {
                 <input
                   type="email"
                   className="form-control"
-                  placeholder="your.email@iiitl.ac.in"
+                  placeholder="lcs2025002@iiitl.ac.in"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required

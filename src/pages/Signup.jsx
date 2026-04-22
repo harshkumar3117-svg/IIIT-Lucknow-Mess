@@ -38,9 +38,15 @@ function Signup() {
       return;
     }
 
-    const enrollmentRegex = /^(LCS|LIT|LCI|LCB)\d{4}(0[1-9]|[1-5][0-9]|60)$/i;
+    const enrollmentRegex = /^(LCS|LIT|LCI|LCB)\d{4}(00[1-9]|0[1-5][0-9]|060)$/i;
     if (!enrollmentRegex.test(formData.enrollment)) {
-      setError("Invalid Enrollment Format. Example: LCI202401");
+      setError("Invalid Enrollment Format. Example: LCI2024001");
+      return;
+    }
+
+    const emailRegex = /^(lcs|lit|lci|lcb)\d{4}(00[1-9]|0[1-5][0-9]|060)@iiitl\.ac\.in$/i;
+    if (!emailRegex.test(formData.email)) {
+      setError("Invalid Email Format. Example: lcs2025002@iiitl.ac.in");
       return;
     }
 
@@ -148,7 +154,7 @@ function Signup() {
                       type="email"
                       name="email"
                       className="form-control"
-                      placeholder="your.email@iiitl.ac.in"
+                      placeholder="lcs2025002@iiitl.ac.in"
                       value={formData.email}
                       onChange={handleChange}
                       required

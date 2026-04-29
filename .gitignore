@@ -60,4 +60,3 @@ dist-ssr
  ba518aecb8f15778615c4b15e60e49cf96c0ce86
 
 .env
-src/main/resources/application.properties

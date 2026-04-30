@@ -136,29 +136,7 @@ mvnw.cmd spring-boot:run
 
 ---
 
-## 📸 Screenshots
 
-*(Replace placeholder links with actual screenshots of your application)*
-
-| Home Page | Menu Dashboard |
-| :---: | :---: |
-| <img src="https://via.placeholder.com/400x250?text=Home+Page" alt="Home Page" width="400"/> | <img src="https://via.placeholder.com/400x250?text=Menu+Dashboard" alt="Menu Dashboard" width="400"/> |
-
-| Login Page | Student Feedback |
-| :---: | :---: |
-| <img src="https://via.placeholder.com/400x250?text=Login+Page" alt="Login Page" width="400"/> | <img src="https://via.placeholder.com/400x250?text=Feedback+Portal" alt="Feedback Portal" width="400"/> |
-
----
-
-## 👥 Team Members & Roles
-
-| Name | Role | Responsibilities |
-| :--- | :--- | :--- |
-| **[Your Name]** | Full Stack Developer | API Design, Database Schema, React Frontend Integration |
-| **[Member 2]** | Frontend Developer | UI/UX Design, React Components, CSS Styling |
-| **[Member 3]** | Backend Developer | Spring Boot Security, JWT Authentication, Database connection |
-
----
 
 ## 🔮 Future Improvements / Roadmap
 

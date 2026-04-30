@@ -9,8 +9,7 @@ A comprehensive, full-stack Mess Management System designed specifically for the
 
 ## 🚀 Live Demo
 
-- **Frontend Live (Vercel):** (https://iiit-lucknow-mess-production-6a91.up.railway.app/)](https://iiit-lucknow-mess-production-6a91.up.railway.app/)
-- **Backend API:** [https://api.iiit-mess.com](https://api.iiit-mess.com)
+https://iiit-lucknow-mess-production-6a91.up.railway.app/
 
 ---
 

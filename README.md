@@ -125,18 +125,6 @@ mvnw.cmd spring-boot:run
 ./mvnw spring-boot:run
 ```
 *The backend API will start on `http://localhost:8080`.*
-
-### 4. Frontend Setup
-Open a **new** terminal in the root directory:
-```bash
-# Install dependencies
-npm install
-
-# Start the Vite development server
-npm run dev
-```
-*The frontend application will start on `http://localhost:5173`.*
-
 ---
 
 ## 📖 Usage Guide

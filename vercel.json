@@ -1,4 +1,8 @@
 {
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://iiit-lucknow-mess-production-6a91.up.railway.app/api/$1" },
+    { "source": "/register/(.*)", "destination": "https://iiit-lucknow-mess-production-6a91.up.railway.app/register/$1" }
+  ],
   "routes": [
     { "handle": "filesystem" },
     { "src": "/.*", "dest": "/index.html" }

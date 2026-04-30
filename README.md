@@ -8,8 +8,8 @@
 A comprehensive, full-stack Mess Management System designed specifically for the students of IIIT Lucknow. This application streamlines the process of managing daily meals, user feedback, and student authentication using a modern tech stack.
 
 ## 🚀 Live Demo
-*(Replace with actual links if deployed)*
-- **Frontend Live (Vercel):** [[https://iiit-mess.vercel.app](https://iiit-lucknow-mess-production-6a91.up.railway.app/)](https://iiit-lucknow-mess-production-6a91.up.railway.app/)
+
+- **Frontend Live (Vercel):** (https://iiit-lucknow-mess-production-6a91.up.railway.app/)](https://iiit-lucknow-mess-production-6a91.up.railway.app/)
 - **Backend API:** [https://api.iiit-mess.com](https://api.iiit-mess.com)
 
 ---

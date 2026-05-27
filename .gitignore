@@ -1,7 +1,7 @@
-HEAD
+### Spring Boot / Maven ###
 HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
@@ -42,9 +42,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+### Node / Frontend ###
+node_modules/
+frontend/node_modules/
+frontend/dist/
+frontend/dist-ssr/
 *.local
 
 # Editor directories and files
@@ -57,6 +59,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
- ba518aecb8f15778615c4b15e60e49cf96c0ce86
 
+### Environment files (never commit secrets) ###
 .env
+backend/.env

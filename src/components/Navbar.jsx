@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../assets/logo.jpg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import NotificationBell from "./NotificationBell";
 
 function Navbar() {
   const { isLoggedIn, user, logout } = useAuth();
@@ -43,6 +44,9 @@ function Navbar() {
             <li className="nav-item">
               <NavLink className="nav-link custom-link" to="/about">About</NavLink>
             </li>
+
+            {/* 🔔 Notification bell — visible to ALL users */}
+            <NotificationBell />
 
             {isLoggedIn ? (
               <>

@@ -43,8 +43,8 @@ public class AuthController {
             return ResponseEntity.badRequest().body(errorResponse("All fields are required"));
         }
 
-        if (password.length() < 6) {
-            return ResponseEntity.badRequest().body(errorResponse("Password must be at least 6 characters"));
+        if (password.length() < 8) {
+            return ResponseEntity.badRequest().body(errorResponse("Password must be at least 8 characters"));
         }
 
         // Check duplicates

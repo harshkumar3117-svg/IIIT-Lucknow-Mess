@@ -33,8 +33,8 @@ function Signup() {
       return;
     }
 
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters");
+    if (formData.password.length < 8) {
+      setError("Password must be at least 8 characters");
       return;
     }
 
@@ -169,7 +169,7 @@ function Signup() {
                       type="password"
                       name="password"
                       className="form-control"
-                      placeholder="Min 6 characters"
+                      placeholder="Min 8 characters"
                       value={formData.password}
                       onChange={handleChange}
                       required

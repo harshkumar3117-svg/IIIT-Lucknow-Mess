@@ -36,8 +36,10 @@ public class SecurityConfig {
                 // Public endpoints
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/register/**").permitAll()
+                .requestMatchers("/api/notifications/public").permitAll()
                 .requestMatchers("/api/feedback/**").authenticated()
                 .requestMatchers("/api/auth/me").authenticated()
+                .requestMatchers("/api/notifications/**").authenticated()
                 // Everything else public (static assets, etc.)
                 .anyRequest().permitAll()
             )

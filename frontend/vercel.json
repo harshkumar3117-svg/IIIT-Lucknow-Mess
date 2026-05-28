@@ -1,10 +1,8 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "https://iiit-lucknow-mess-92jt.onrender.com/api/$1" },
-    { "source": "/register/(.*)", "destination": "https://iiit-lucknow-mess-92jt.onrender.com/register/$1" }
-  ],
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    { "source": "/api/:path*", "destination": "https://iiit-lucknow-mess-92jt.onrender.com/api/:path*" },
+    { "source": "/register/:path*", "destination": "https://iiit-lucknow-mess-92jt.onrender.com/register/:path*" },
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
+

@@ -3,6 +3,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import logo from "../assets/logo.jpg";
+import API_BASE from "../api";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ function Login() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/auth/login", { email, password });
+      const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });
       login(res.data.token, res.data.user);
       navigate("/");
     } catch (err) {

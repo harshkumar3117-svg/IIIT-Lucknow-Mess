@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+import API_BASE from "../api";
 
 const POLL_INTERVAL_MS = 30_000;
 
@@ -45,7 +46,7 @@ export default function NotificationBell() {
 
       if (isLoggedIn && token) {
         // ── Logged-in: fetch per-student unseen (DB-backed dismiss) ──
-        const res = await axios.get("/api/notifications", {
+        const res = await axios.get(`${API_BASE}/api/notifications`, {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = res.data || [];
@@ -58,7 +59,7 @@ export default function NotificationBell() {
         prevCount.current = data.length;
       } else {
         // ── Guest: fetch public global notifications, filter by localStorage dismissed ──
-        const res = await axios.get("/api/notifications/public");
+        const res = await axios.get(`${API_BASE}/api/notifications/public`);
         const allData = res.data || [];
         const dismissed = getGuestDismissed();
         const visible = allData.filter((n) => !dismissed.has(n.mealType));
@@ -103,7 +104,7 @@ export default function NotificationBell() {
     if (isLoggedIn && token) {
       // DB dismiss for logged-in users
       try {
-        await axios.patch(`/api/notifications/${notif.id}/seen`, {}, {
+        await axios.patch(`${API_BASE}/api/notifications/${notif.id}/seen`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } catch (err) {
@@ -122,7 +123,7 @@ export default function NotificationBell() {
   const handleDismissAll = async () => {
     if (isLoggedIn && token) {
       try {
-        await axios.patch("/api/notifications/seen-all", {}, {
+        await axios.patch(`${API_BASE}/api/notifications/seen-all`, {}, {
           headers: { Authorization: `Bearer ${token}` },
         });
       } catch (err) {

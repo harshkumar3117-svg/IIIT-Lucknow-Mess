@@ -3,6 +3,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import axios from "axios";
 import logo from "../assets/logo.jpg";
+import API_BASE from "../api";
 
 function Signup() {
   const [formData, setFormData] = useState({
@@ -53,7 +54,7 @@ function Signup() {
     setLoading(true);
 
     try {
-      const res = await axios.post("/api/auth/signup", {
+      const res = await axios.post(`${API_BASE}/api/auth/signup`, {
         name: formData.name,
         enrollment: formData.enrollment,
         program: formData.program,

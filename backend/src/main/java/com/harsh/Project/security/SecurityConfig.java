@@ -37,6 +37,8 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/register/**").permitAll()
                 .requestMatchers("/api/notifications/public").permitAll()
+                .requestMatchers("/api/notifications/trigger-now").permitAll()  // dev test trigger
+                .requestMatchers("/api/notifications/test-insert").permitAll()  // dev test insert
                 .requestMatchers("/api/feedback/**").authenticated()
                 .requestMatchers("/api/auth/me").authenticated()
                 .requestMatchers("/api/notifications/**").authenticated()
@@ -52,7 +54,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOriginPatterns(List.of("*"));
-        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setExposedHeaders(List.of("Authorization"));

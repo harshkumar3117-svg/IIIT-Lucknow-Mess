@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import feedbackImg from "../assets/feedback.jpg";
+import API_BASE from "../api";
 
 function Feedback() {
-
   const [rating, setRating] = useState(0);
   const [menuGood, setMenuGood] = useState(null);
   const [mood, setMood] = useState(null);
@@ -10,29 +10,79 @@ function Feedback() {
   const [healthIssues, setHealthIssues] = useState([]);
   const [showOther, setShowOther] = useState(false);
   const [preview, setPreview] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // "success" | "error"
+  const [statusMsg, setStatusMsg] = useState("");
+
+  const otherRef = useRef(null);
+  const dishRef = useRef(null);
+  const commentsRef = useRef(null);
 
   const handleImage = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setPreview(URL.createObjectURL(file));
-    }
+    if (file) setPreview(URL.createObjectURL(file));
   };
 
   const handleHealth = (value) => {
-    if (value === "Other") {
-      setShowOther(!showOther);
-    }
-
-    if (healthIssues.includes(value)) {
-      setHealthIssues(healthIssues.filter(item => item !== value));
-    } else {
-      setHealthIssues([...healthIssues, value]);
-    }
+    if (value === "Other") setShowOther((prev) => !prev);
+    setHealthIssues((prev) =>
+      prev.includes(value) ? prev.filter((i) => i !== value) : [...prev, value]
+    );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Thank you for your valuable feedback 💚");
+    setSubmitting(true);
+    setSubmitStatus(null);
+
+    const payload = {
+      rating,
+      menuGood,
+      mood,
+      diet,
+      healthIssues,
+      otherHealthIssue: otherRef.current?.value || "",
+      suggestedDish: dishRef.current?.value || "",
+      comments: commentsRef.current?.value || "",
+    };
+
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE}/api/feedback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setSubmitStatus("success");
+        setStatusMsg(data.message || "Thank you for your valuable feedback 💚");
+        // Reset form
+        setRating(0);
+        setMenuGood(null);
+        setMood(null);
+        setDiet(null);
+        setHealthIssues([]);
+        setShowOther(false);
+        setPreview(null);
+        if (dishRef.current) dishRef.current.value = "";
+        if (commentsRef.current) commentsRef.current.value = "";
+        if (otherRef.current) otherRef.current.value = "";
+      } else {
+        setSubmitStatus("error");
+        setStatusMsg(data.error || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setSubmitStatus("error");
+      setStatusMsg("Network error. Please check your connection.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -40,8 +90,20 @@ function Feedback() {
 
       {/* LEFT PANEL */}
       <div className="panel">
-        <h3>We’d love your feedback 💚</h3>
+        <h3>We'd love your feedback 💚</h3>
         <p className="text-muted">Help us improve your daily mess meals.</p>
+
+        {/* Status Banner */}
+        {submitStatus === "success" && (
+          <div className="alert-success-banner">
+            ✅ {statusMsg}
+          </div>
+        )}
+        {submitStatus === "error" && (
+          <div className="alert-error-banner">
+            ❌ {statusMsg}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
 
@@ -66,7 +128,6 @@ function Feedback() {
               className={`yn-btn yn-yes ${menuGood === "yes" ? "active-yn" : ""}`}
               onClick={() => setMenuGood("yes")}
             >👍 Yes</button>
-
             <button type="button"
               className={`yn-btn yn-no ${menuGood === "no" ? "active-yn" : ""}`}
               onClick={() => setMenuGood("no")}
@@ -76,11 +137,11 @@ function Feedback() {
           {/* Mood */}
           <div className="mb-3">
             <label className="form-label fw-bold">How did the food make you feel?</label><br/>
-            {["😍","🙂","😐","😣"].map((m,index)=>(
+            {["😍","🙂","😐","😣"].map((m, index) => (
               <button key={index}
                 type="button"
-                className={`mood-btn ${mood===m ? "active":""}`}
-                onClick={()=>setMood(m)}
+                className={`mood-btn ${mood === m ? "active" : ""}`}
+                onClick={() => setMood(m)}
               >
                 {m}
               </button>
@@ -90,11 +151,11 @@ function Feedback() {
           {/* Diet */}
           <div className="mb-3">
             <label className="form-label fw-bold">Your diet preference</label><br/>
-            {["Veg","Non-Veg","Vegan","Jain","High Protein"].map((d,index)=>(
+            {["Veg","Non-Veg","Vegan","Jain","High Protein"].map((d, index) => (
               <button key={index}
                 type="button"
-                className={`diet-btn ${diet===d ? "active":""}`}
-                onClick={()=>setDiet(d)}
+                className={`diet-btn ${diet === d ? "active" : ""}`}
+                onClick={() => setDiet(d)}
               >
                 {d}
               </button>
@@ -105,18 +166,19 @@ function Feedback() {
           <div className="mb-3">
             <label className="form-label fw-bold">Health issues (if any)</label>
             <div>
-              {["Stomach ache","Too oily","Allergy","Other"].map((item,index)=>(
+              {["Stomach ache","Too oily","Allergy","Other"].map((item, index) => (
                 <div key={index}>
                   <input
                     type="checkbox"
-                    onChange={()=>handleHealth(item)}
+                    checked={healthIssues.includes(item)}
+                    onChange={() => handleHealth(item)}
                   /> {item}
                 </div>
               ))}
             </div>
-
             {showOther && (
               <textarea
+                ref={otherRef}
                 className="form-control mt-2"
                 placeholder="Explain..."
               />
@@ -126,13 +188,13 @@ function Feedback() {
           {/* Suggest Dish */}
           <div className="mb-3">
             <label className="form-label fw-bold">Suggest a dish</label>
-            <input type="text" className="form-control"/>
+            <input ref={dishRef} type="text" className="form-control"/>
           </div>
 
           {/* Additional Comments */}
           <div className="mb-3">
             <label className="form-label fw-bold">Additional comments</label>
-            <textarea className="form-control"/>
+            <textarea ref={commentsRef} className="form-control"/>
           </div>
 
           {/* Photo */}
@@ -144,8 +206,11 @@ function Feedback() {
             )}
           </div>
 
-          <button className="btn btn-success w-100 mt-2 submit-btn">
-            Submit Feedback
+          <button
+            className="btn btn-success w-100 mt-2 submit-btn"
+            disabled={submitting}
+          >
+            {submitting ? "Submitting..." : "Submit Feedback"}
           </button>
 
         </form>
@@ -156,7 +221,7 @@ function Feedback() {
         <img src={feedbackImg} alt="feedback"/>
         <strong>Quick Tips</strong>
         <p className="text-muted mt-2">
-          Be specific about dishes & meals. Your feedback helps improve the quality daily!
+          Be specific about dishes &amp; meals. Your feedback helps improve the quality daily!
         </p>
       </div>
 
@@ -164,4 +229,4 @@ function Feedback() {
   );
 }
 
-export default Feedback;
+export default Feedback;

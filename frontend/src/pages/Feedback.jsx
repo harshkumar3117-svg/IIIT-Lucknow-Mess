@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import feedbackImg from "../assets/feedback.jpg";
-import API_BASE from "../api";
+
+const WEB3FORMS_KEY = "ff37b715-3431-4325-954f-ddefd012c32b";
 
 function Feedback() {
   const [rating, setRating] = useState(0);
@@ -35,33 +36,35 @@ function Feedback() {
     setSubmitting(true);
     setSubmitStatus(null);
 
-    const payload = {
-      rating,
-      menuGood,
-      mood,
-      diet,
-      healthIssues,
-      otherHealthIssue: otherRef.current?.value || "",
-      suggestedDish: dishRef.current?.value || "",
-      comments: commentsRef.current?.value || "",
-    };
+    const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
+    const message = [
+      `⭐ Rating: ${stars} (${rating}/5)`,
+      menuGood   ? `📋 Menu Good: ${menuGood === "yes" ? "👍 Yes" : "👎 No"}` : null,
+      mood       ? `😊 Mood: ${mood}` : null,
+      diet       ? `🥗 Diet Preference: ${diet}` : null,
+      healthIssues.length > 0 ? `🏥 Health Issues: ${healthIssues.join(", ")}` : null,
+      otherRef.current?.value ? `📝 Other Issue: ${otherRef.current.value}` : null,
+      dishRef.current?.value  ? `🍛 Suggested Dish: ${dishRef.current.value}` : null,
+      commentsRef.current?.value ? `\n💬 Comments:\n${commentsRef.current.value}` : null,
+    ].filter(Boolean).join("\n");
 
     try {
-      const token = localStorage.getItem("token");
-      const res = await fetch(`${API_BASE}/api/feedback`, {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          ...(token ? { Authorization: `Bearer ${token}` } : {}),
-        },
-        body: JSON.stringify(payload),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          subject: `🍽️ Mess Feedback — ${rating}/5 Stars`,
+          message,
+          from_name: "MessEase Feedback System",
+        }),
       });
 
       const data = await res.json();
 
-      if (res.ok) {
+      if (data.success) {
         setSubmitStatus("success");
-        setStatusMsg(data.message || "Thank you for your valuable feedback 💚");
+        setStatusMsg("Thank you for your valuable feedback 💚");
         // Reset form
         setRating(0);
         setMenuGood(null);
@@ -75,7 +78,7 @@ function Feedback() {
         if (otherRef.current) otherRef.current.value = "";
       } else {
         setSubmitStatus("error");
-        setStatusMsg(data.error || "Something went wrong. Please try again.");
+        setStatusMsg(data.message || "Something went wrong. Please try again.");
       }
     } catch (err) {
       setSubmitStatus("error");
@@ -84,6 +87,7 @@ function Feedback() {
       setSubmitting(false);
     }
   };
+
 
   return (
     <div className="feedback-wrap">

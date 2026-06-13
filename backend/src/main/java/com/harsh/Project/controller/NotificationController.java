@@ -32,12 +32,6 @@ public class NotificationController {
     private static final DateTimeFormatter FMT =
             DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
 
-    // ─────────────────────────────────────────────────────────────────
-    // GET /api/notifications/public  — NO auth required.
-    //   Returns today's GLOBAL meal announcements from MealAnnouncement
-    //   table — works even when no students are registered.
-    //   Guests use localStorage to track dismiss state.
-    // ─────────────────────────────────────────────────────────────────
     @GetMapping("/public")
     public ResponseEntity<?> getPublicNotifications() {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
@@ -60,11 +54,6 @@ public class NotificationController {
 
         return ResponseEntity.ok(body);
     }
-
-    // ─────────────────────────────────────────────────────────────────
-    // GET /api/notifications  — JWT required (logged-in students only).
-    //   Returns per-student unseen notifications with DB-tracked dismiss.
-    // ─────────────────────────────────────────────────────────────────
     @GetMapping
     public ResponseEntity<?> getUnseenNotifications(
             @AuthenticationPrincipal Student student) {
@@ -84,9 +73,6 @@ public class NotificationController {
         return ResponseEntity.ok(body);
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // PATCH /api/notifications/{id}/seen  — mark a single notification seen
-    // ─────────────────────────────────────────────────────────────────
     @PatchMapping("/{id}/seen")
     public ResponseEntity<?> markSeen(
             @PathVariable Long id,
@@ -104,7 +90,6 @@ public class NotificationController {
 
         Notification notification = opt.get();
 
-        // Security: ensure the notification belongs to this student
         if (!notification.getStudent().getId().equals(student.getId())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN)
                     .body(Map.of("error", "Access denied"));
@@ -116,9 +101,7 @@ public class NotificationController {
         return ResponseEntity.ok(Map.of("message", "Notification marked as seen"));
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // PATCH /api/notifications/seen-all  — mark ALL unseen notifications seen
-    // ─────────────────────────────────────────────────────────────────
+
     @PatchMapping("/seen-all")
     public ResponseEntity<?> markAllSeen(
             @AuthenticationPrincipal Student student) {
@@ -131,14 +114,6 @@ public class NotificationController {
         notificationRepository.markAllSeenForStudent(student);
         return ResponseEntity.ok(Map.of("message", "All notifications marked as seen"));
     }
-
-    // ─────────────────────────────────────────────────────────────────
-    // POST /api/notifications/trigger-now  — NO auth required (dev/test).
-    //   Manually inserts a MealAnnouncement for the meal currently being
-    //   served in IST (Asia/Kolkata).  Idempotent — skips if already saved.
-    //   Meal windows: Breakfast 07:30–09:30 | Lunch 12:30–14:30
-    //                 Snacks 16:30–18:00    | Dinner 20:00–22:00
-    // ─────────────────────────────────────────────────────────────────
     @PostMapping("/trigger-now")
     public ResponseEntity<?> triggerNow() {
         ZoneId ist = ZoneId.of("Asia/Kolkata");
@@ -181,12 +156,6 @@ public class NotificationController {
             "message", "✅ " + mealType + " announcement saved successfully."
         ));
     }
-
-    // ─────────────────────────────────────────────────────────────────
-    // POST /api/notifications/test-insert  — NO auth required (dev/test).
-    //   Forcibly inserts a TEST notification into the database right now,
-    //   so you can verify the frontend bell icon works at any time of day.
-    // ─────────────────────────────────────────────────────────────────
     @PostMapping("/test-insert")
     public ResponseEntity<?> testInsert() {
         LocalDateTime now = LocalDateTime.now();
@@ -206,9 +175,6 @@ public class NotificationController {
         ));
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // Helpers
-    // ─────────────────────────────────────────────────────────────────
 
     /** For logged-in student endpoint (includes DB id for dismiss calls) */
     private Map<String, Object> toMap(Notification n) {

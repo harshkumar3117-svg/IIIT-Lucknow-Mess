@@ -14,13 +14,10 @@ import java.util.List;
 @Repository
 public interface NotificationRepository extends JpaRepository<Notification, Long> {
 
-    /** All unseen notifications for a student, newest first */
     List<Notification> findByStudentAndSeenFalseOrderByCreatedAtDesc(Student student);
 
-    /** All notifications for a student (seen or unseen) */
     List<Notification> findByStudentOrderByCreatedAtDesc(Student student);
 
-    /** Check if a notification for this student+meal already exists today (prevent duplicates) */
     @Query("SELECT COUNT(n) > 0 FROM Notification n " +
            "WHERE n.student = :student " +
            "AND n.mealType = :mealType " +
@@ -31,11 +28,7 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
                                     LocalDateTime startOfDay,
                                     LocalDateTime endOfDay);
 
-    /**
-     * Returns one representative notification per mealType for today.
-     * Used by the public (unauthenticated) endpoint so ALL visitors can see
-     * which meals have been announced today.
-     */
+
     @Query("SELECT DISTINCT n FROM Notification n " +
            "WHERE n.createdAt >= :startOfDay " +
            "AND n.createdAt < :endOfDay " +
@@ -44,7 +37,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     List<Notification> findDistinctMealsForToday(LocalDateTime startOfDay,
                                                   LocalDateTime endOfDay);
 
-    /** Mark all unseen notifications for a student as seen */
     @Modifying
     @Transactional
     @Query("UPDATE Notification n SET n.seen = true WHERE n.student = :student AND n.seen = false")

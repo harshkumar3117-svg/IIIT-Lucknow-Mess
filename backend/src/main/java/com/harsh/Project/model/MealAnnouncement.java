@@ -25,7 +25,6 @@ public class MealAnnouncement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /** e.g. BREAKFAST, LUNCH, SNACKS, DINNER */
     @Column(nullable = false, length = 20)
     private String mealType;
 

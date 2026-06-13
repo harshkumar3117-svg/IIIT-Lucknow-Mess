@@ -18,19 +18,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
-/**
- * Sends meal-time notifications using Spring's @Scheduled cron (IST — Asia/Kolkata).
- *
- * Each meal does TWO things:
- *   1. Saves a global MealAnnouncement (powers the public endpoint — no students needed)
- *   2. Saves per-student Notification rows (powers the authenticated dismiss-tracking endpoint)
- *
- * Meal schedule:
- *   Breakfast  → 7:30 AM  (cron: 0 30 7  * * *)
- *   Lunch      → 12:30 PM (cron: 0 30 12 * * *)
- *   Snacks     → 4:30 PM  (cron: 0 30 16 * * *)
- *   Dinner     → 8:00 PM  (cron: 0 0  20 * * *)
- */
+
 @Component
 public class MealNotificationScheduler {
 
@@ -45,9 +33,6 @@ public class MealNotificationScheduler {
     @Autowired
     private MealAnnouncementRepository announcementRepository;
 
-    // ─────────────────────────────────────────────────────────────────
-    // BREAKFAST  — 7:30 AM every day
-    // ─────────────────────────────────────────────────────────────────
     @Scheduled(cron = "0 30 7 * * *", zone = "Asia/Kolkata")
     @Transactional
     public void sendBreakfastNotification() {
@@ -57,9 +42,6 @@ public class MealNotificationScheduler {
                 "🍳");
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // LUNCH  — 12:30 PM every day
-    // ─────────────────────────────────────────────────────────────────
     @Scheduled(cron = "0 30 12 * * *", zone = "Asia/Kolkata")
     @Transactional
     public void sendLunchNotification() {
@@ -69,9 +51,7 @@ public class MealNotificationScheduler {
                 "🍛");
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // SNACKS  — 4:30 PM every day
-    // ─────────────────────────────────────────────────────────────────
+
     @Scheduled(cron = "0 30 16 * * *", zone = "Asia/Kolkata")
     @Transactional
     public void sendSnacksNotification() {
@@ -81,9 +61,6 @@ public class MealNotificationScheduler {
                 "🥪");
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // DINNER  — 8:00 PM every day
-    // ─────────────────────────────────────────────────────────────────
     @Scheduled(cron = "0 0 20 * * *", zone = "Asia/Kolkata")
     @Transactional
     public void sendDinnerNotification() {
@@ -93,9 +70,7 @@ public class MealNotificationScheduler {
                 "🍲");
     }
 
-    // ─────────────────────────────────────────────────────────────────
-    // Core trigger: runs for every meal
-    // ─────────────────────────────────────────────────────────────────
+
     private void trigger(String mealType, String title, String message, String emoji) {
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
         LocalDateTime endOfDay   = LocalDate.now().atTime(LocalTime.MAX);

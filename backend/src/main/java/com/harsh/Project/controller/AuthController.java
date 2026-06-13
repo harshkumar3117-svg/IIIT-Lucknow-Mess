@@ -37,7 +37,6 @@ public class AuthController {
         String program = request.get("program");
         String branch = request.get("branch");
 
-        // Validation
         if (email == null || password == null || name == null || enrollment == null) {
             return ResponseEntity.badRequest().body(errorResponse("All fields are required"));
         }
